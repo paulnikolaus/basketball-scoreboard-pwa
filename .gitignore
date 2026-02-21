@@ -1,5 +1,25 @@
+#######################################
+# Dependencies
+#######################################
+node_modules/
+
+#######################################
+# Build output
+#######################################
+dist/
+dist-ssr/
+coverage/
+
+#######################################
+# Vite / tooling cache
+#######################################
+.vite/
+*.tsbuildinfo
+
+#######################################
 # Logs
-logs
+#######################################
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,18 +27,31 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+#######################################
+# Environment variables
+#######################################
+.env
+.env.*
+!.env.example
+
+#######################################
+# Local config
+#######################################
 *.local
 
-# Editor directories and files
+#######################################
+# IDE / Editor
+#######################################
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+
+#######################################
+# OS files
+#######################################
+.DS_Store
+Thumbs.db
