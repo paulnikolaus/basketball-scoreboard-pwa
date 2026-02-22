@@ -41,7 +41,7 @@
 }
 
 .center-column {
-  flex: 1.2;
+  flex: 2;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -52,4 +52,31 @@
   .center-column {
     gap: 0.8rem; /* compact but not cramped */
   }
+}
+
+/* =============================
+   Section Titles
+   ============================= */
+
+.section-title {
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-align: center;
+
+  /* Responsive scaling */
+  font-size: clamp(0.9rem, 2.5vw, 1.6rem);
+}
+
+/* =============================
+   Clock Display
+   ============================= */
+
+.game-clock {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+}
+
+.shot-clock {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
 }

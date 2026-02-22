@@ -60,7 +60,7 @@ function App() {
           height: "100%", // critical
         }}
       >
-        <div style={{ textAlign: "center", letterSpacing: "2px" }}>HOME</div>
+        <div className="section-title">HOME</div>
 
         <div
           style={{
@@ -107,16 +107,11 @@ function App() {
       <div className="center-column">
         {/* -------- GAME SECTION -------- */}
         <div style={{ textAlign: "center" }}>
-          <div style={{ letterSpacing: "2px" }}>GAME</div>
+          <div className="section-title">GAME</div>
 
           <div
-            style={{
-              fontSize: "2.6rem",
-              margin: "0.5rem 0",
-
-              /* 👇 Dynamic color */
-              color: gameColor,
-            }}
+            className="game-clock"
+            style={{ margin: "0.5rem 0", color: gameColor }}
           >
             {formatGameTime(state.gameClock)}
           </div>
@@ -156,16 +151,11 @@ function App() {
 
         {/* -------- SHOT SECTION -------- */}
         <div style={{ textAlign: "center" }}>
-          <div style={{ letterSpacing: "2px" }}>SHOT</div>
+          <div className="section-title">SHOT</div>
 
           <div
-            style={{
-              fontSize: "2.2rem",
-              margin: "0.5rem 0",
-
-              /* 👇 Dynamic color */
-              color: shotColor,
-            }}
+            className="shot-clock"
+            style={{ margin: "0.5rem 0", color: shotColor }}
           >
             {formatShotClock(state.shotClock)}
           </div>
@@ -243,7 +233,7 @@ function App() {
           height: "100%", // critical
         }}
       >
-        <div style={{ textAlign: "center", letterSpacing: "2px" }}>AWAY</div>
+        <div className="section-title">AWAY</div>
 
         <div
           style={{
