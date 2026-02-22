@@ -2,6 +2,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+// 👇 Import global styles ONCE here
+import "./index.css";
+
 // Root App component
 import App from "./App";
 
@@ -13,9 +16,9 @@ import { GameProvider } from "./context/GameProvider";
  * wrapped inside GameProvider
  */
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <GameProvider>
-      <App />
-    </GameProvider>
-  </React.StrictMode>,
+    <React.StrictMode>
+        <GameProvider>
+            <App />
+        </GameProvider>
+    </React.StrictMode>,
 );

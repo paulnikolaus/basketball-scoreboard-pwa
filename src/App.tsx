@@ -60,7 +60,7 @@ function App() {
           height: "100%", // critical
         }}
       >
-        <div style={{ textAlign: "center", letterSpacing: "2px" }}>HOME</div>
+        <div className="section-title">HOME</div>
 
         <div
           style={{
@@ -107,27 +107,16 @@ function App() {
       <div className="center-column">
         {/* -------- GAME SECTION -------- */}
         <div style={{ textAlign: "center" }}>
-          <div style={{ letterSpacing: "2px" }}>GAME</div>
+          <div className="section-title">GAME</div>
 
           <div
-            style={{
-              fontSize: "2.6rem",
-              margin: "0.5rem 0",
-
-              /* 👇 Dynamic color */
-              color: gameColor,
-            }}
+            className="game-clock"
+            style={{ margin: "0.5rem 0", color: gameColor }}
           >
             {formatGameTime(state.gameClock)}
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1.2rem",
-            }}
-          >
+          <div className="game-controls">
             <button
               onClick={() =>
                 dispatch({
@@ -156,29 +145,18 @@ function App() {
 
         {/* -------- SHOT SECTION -------- */}
         <div style={{ textAlign: "center" }}>
-          <div style={{ letterSpacing: "2px" }}>SHOT</div>
+          <div className="section-title">SHOT</div>
 
           <div
-            style={{
-              fontSize: "2.2rem",
-              margin: "0.5rem 0",
-
-              /* 👇 Dynamic color */
-              color: shotColor,
-            }}
+            className="shot-clock"
+            style={{ margin: "0.5rem 0", color: shotColor }}
           >
             {formatShotClock(state.shotClock)}
           </div>
           {/**
            * Start / Stop shot clock toggle
            */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1.2rem",
-            }}
-          >
+          <div className="shot-controls">
             <button
               onClick={() =>
                 dispatch({
@@ -191,46 +169,25 @@ function App() {
               Start / Stop
             </button>
 
-            {/**
-             * Horizontal row containing quick shot clock resets.
-             * This row is ONLY for 24s and 14s.
-             */}
-            <div style={{ display: "flex", gap: "0.6rem" }}>
-              <button
-                style={{ flex: 1 }}
-                onClick={() =>
-                  dispatch({ type: "SET_SHOT_CLOCK", seconds: 24 })
-                }
-              >
-                24s
-              </button>
-
-              <button
-                style={{ flex: 1 }}
-                onClick={() =>
-                  dispatch({ type: "SET_SHOT_CLOCK", seconds: 14 })
-                }
-              >
-                14s
-              </button>
-            </div>
-
-            {/**
-             * Reset score button.
-             * Important: This is OUTSIDE the horizontal row,
-             * so it stacks vertically below it.
-             */}
             <button
-              style={{
-                backgroundColor: "#8b0000",
-                color: "white",
-                fontWeight: "bold",
-              }}
-              onClick={() => dispatch({ type: "RESET_SCORE" })}
+              onClick={() => dispatch({ type: "SET_SHOT_CLOCK", seconds: 24 })}
             >
-              RESET SCORE
+              24s
+            </button>
+
+            <button
+              onClick={() => dispatch({ type: "SET_SHOT_CLOCK", seconds: 14 })}
+            >
+              14s
             </button>
           </div>
+
+          <button
+            className="danger"
+            onClick={() => dispatch({ type: "RESET_SCORE" })}
+          >
+            RESET SCORE
+          </button>
         </div>
       </div>
 
@@ -243,7 +200,7 @@ function App() {
           height: "100%", // critical
         }}
       >
-        <div style={{ textAlign: "center", letterSpacing: "2px" }}>AWAY</div>
+        <div className="section-title">AWAY</div>
 
         <div
           style={{
