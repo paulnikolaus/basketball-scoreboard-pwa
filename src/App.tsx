@@ -1,11 +1,14 @@
 import { useGame } from "./context/useGame";
 import { useGameTimer } from "./hooks/useGameTimer";
 import { formatGameTime } from "./utils/formatTime";
-import {formatShotClock} from "./utils/formatTime";
+import { formatShotClock } from "./utils/formatTime";
 
 function App() {
   useGameTimer();
   const { state, dispatch } = useGame();
+
+  const gameColor = state.isGameRunning ? "white" : "red";
+  const shotColor = state.isShotClockRunning ? "#0f5f0f" : "red";
 
   return (
     <div
@@ -90,6 +93,9 @@ function App() {
             style={{
               fontSize: "2.6rem",
               margin: "0.5rem 0",
+
+              /* 👇 Dynamic color */
+              color: gameColor,
             }}
           >
             {formatGameTime(state.gameClock)}
@@ -137,6 +143,9 @@ function App() {
             style={{
               fontSize: "2.2rem",
               margin: "0.5rem 0",
+
+              /* 👇 Dynamic color */
+              color: shotColor,
             }}
           >
             {formatShotClock(state.shotClock)}

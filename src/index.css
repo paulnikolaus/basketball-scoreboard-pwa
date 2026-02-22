@@ -37,13 +37,16 @@ h1 {
 
 /* Base button styling for mobile ergonomics */
 button {
-  flex: 1; /* split container space */
+  flex-grow: 1;     /* grow vertically inside column */
+  width: 100%;
+
   font-size: 1.6rem;
+  font-weight: 600;
+
   border-radius: 14px;
   border: none;
   background-color: #2a2a2a;
   color: white;
-  font-weight: 600;
 }
 
 button:active {
