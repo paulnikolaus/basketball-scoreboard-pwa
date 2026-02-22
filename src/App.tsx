@@ -1,3 +1,4 @@
+import "./App.css";
 import { useGame } from "./context/useGame";
 import { useGameTimer } from "./hooks/useGameTimer";
 import { formatGameTime } from "./utils/formatTime";
@@ -76,15 +77,7 @@ function App() {
       </div>
 
       {/* ================= CENTER COLUMN ================= */}
-      <div
-        style={{
-          flex: 1.2,
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          gap: "2rem",
-        }}
-      >
+      <div className="center-column">
         {/* -------- GAME SECTION -------- */}
         <div style={{ textAlign: "center" }}>
           <div style={{ letterSpacing: "2px" }}>GAME</div>
@@ -133,7 +126,6 @@ function App() {
         </div>
 
         {/* -------- SPACING BETWEEN GAME & SHOT -------- */}
-        <div style={{ height: "2rem" }} />
 
         {/* -------- SHOT SECTION -------- */}
         <div style={{ textAlign: "center" }}>
