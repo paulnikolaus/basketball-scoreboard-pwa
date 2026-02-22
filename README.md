@@ -1,7 +1,7 @@
-# 🏀 Basketball Scoreboard PWA
-
 [![GitHub release](https://img.shields.io/github/v/release/paulnikolaus/basketball-scoreboard-pwa)](https://github.com/paulnikolaus/basketball-scoreboard-pwa/releases)
 [![License](https://img.shields.io/github/license/paulnikolaus/basketball-scoreboard-pwa)](https://github.com/paulnikolaus/basketball-scoreboard-pwa/blob/main/LICENSE)
+
+# 🏀 Basketball Scoreboard PWA
 
 A minimal, mobile-first basketball scoreboard featuring a game clock, shot clock, and audible buzzer — built as an installable Progressive Web App.
 
