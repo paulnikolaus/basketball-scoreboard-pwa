@@ -6,6 +6,11 @@ function App() {
   useGameTimer();
   const { state, dispatch } = useGame();
 
+  const buttonStyle = {
+    padding: "0.7rem",
+    fontSize: "1rem",
+  };
+
   return (
     <div
       style={{
@@ -14,41 +19,55 @@ function App() {
         backgroundColor: "#111",
         color: "white",
         fontFamily: "system-ui",
-        padding: "1rem",
-        gap: "1rem",
+        padding: "0.8rem",
+        gap: "0.8rem",
       }}
     >
       {/* ================= HOME COLUMN ================= */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        {/* Label */}
-        <div
-          style={{
-            textAlign: "center",
-            fontSize: "1rem",
-            marginBottom: "0.5rem",
-            letterSpacing: "2px",
-          }}
-        >
-          HOME
-        </div>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ textAlign: "center", letterSpacing: "2px" }}>HOME</div>
 
-        {/* Score display */}
         <div
           style={{
             textAlign: "center",
             fontSize: "4rem",
-            marginBottom: "1rem",
+            margin: "0.5rem 0 1rem 0",
           }}
         >
           {state.homeScore}
         </div>
 
-        {/* Score buttons */}
-        <div style={{ display: "grid", gap: "0.5rem" }}>
-          <button onClick={() => dispatch({ type: "INCREMENT_HOME", amount: 3 })}>+3</button>
-          <button onClick={() => dispatch({ type: "INCREMENT_HOME", amount: 2 })}>+2</button>
-          <button onClick={() => dispatch({ type: "INCREMENT_HOME", amount: 1 })}>+1</button>
-          <button onClick={() => dispatch({ type: "DECREMENT_HOME", amount: 1 })}>-1</button>
+        <div style={{ display: "grid", gap: "0.6rem" }}>
+          <button
+            style={buttonStyle}
+            onClick={() => dispatch({ type: "INCREMENT_HOME", amount: 3 })}
+          >
+            +3
+          </button>
+          <button
+            style={buttonStyle}
+            onClick={() => dispatch({ type: "INCREMENT_HOME", amount: 2 })}
+          >
+            +2
+          </button>
+          <button
+            style={buttonStyle}
+            onClick={() => dispatch({ type: "INCREMENT_HOME", amount: 1 })}
+          >
+            +1
+          </button>
+          <button
+            style={buttonStyle}
+            onClick={() => dispatch({ type: "DECREMENT_HOME", amount: 1 })}
+          >
+            -1
+          </button>
         </div>
       </div>
 
@@ -58,44 +77,38 @@ function App() {
           flex: 1.2,
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        {/* -------- GAME CLOCK SECTION -------- */}
-        <div>
-          <div
-            style={{
-              textAlign: "center",
-              fontSize: "1rem",
-              letterSpacing: "2px",
-              marginBottom: "0.5rem",
-            }}
-          >
-            GAME
-          </div>
+        {/* -------- GAME CLOCK -------- */}
+        <div style={{ textAlign: "center", width: "100%" }}>
+          <div style={{ letterSpacing: "2px" }}>GAME</div>
 
-          <div
-            style={{
-              textAlign: "center",
-              fontSize: "2.8rem",
-              marginBottom: "0.5rem",
-            }}
-          >
+          <div style={{ fontSize: "2.8rem", margin: "0.5rem 0" }}>
             {formatGameTime(state.gameClock)}
           </div>
 
-          <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.6rem",
+              marginBottom: "1.5rem",
+            }}
+          >
             <button
+              style={buttonStyle}
               onClick={() =>
                 dispatch({
                   type: state.isGameRunning ? "STOP_GAME" : "START_GAME",
                 })
               }
             >
-              {state.isGameRunning ? "Stop" : "Start"}
+              Start / Stop
             </button>
 
             <button
+              style={buttonStyle}
               onClick={() => {
                 const input = prompt("Set game time in seconds:");
                 if (!input) return;
@@ -109,32 +122,19 @@ function App() {
           </div>
         </div>
 
-        {/* -------- SHOT CLOCK SECTION -------- */}
-        <div>
-          <div
-            style={{
-              textAlign: "center",
-              fontSize: "1rem",
-              letterSpacing: "2px",
-              marginBottom: "0.5rem",
-              marginTop: "1.5rem",
-            }}
-          >
-            SHOT
-          </div>
+        {/* -------- SHOT CLOCK -------- */}
+        <div style={{ textAlign: "center", width: "100%" }}>
+          <div style={{ letterSpacing: "2px" }}>SHOT</div>
 
-          <div
-            style={{
-              textAlign: "center",
-              fontSize: "2.4rem",
-              marginBottom: "0.5rem",
-            }}
-          >
+          <div style={{ fontSize: "2.4rem", margin: "0.5rem 0" }}>
             {state.shotClock.toFixed(1)}
           </div>
 
-          <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}
+          >
             <button
+              style={buttonStyle}
               onClick={() =>
                 dispatch({
                   type: state.isShotClockRunning
@@ -143,48 +143,77 @@ function App() {
                 })
               }
             >
-              {state.isShotClockRunning ? "Stop" : "Start"}
+              Start / Stop
             </button>
 
-            <button onClick={() => dispatch({ type: "SET_SHOT_CLOCK", seconds: 24 })}>
-              24
-            </button>
+            <div style={{ display: "flex", gap: "0.6rem" }}>
+              <button
+                style={{ ...buttonStyle, flex: 1 }}
+                onClick={() =>
+                  dispatch({ type: "SET_SHOT_CLOCK", seconds: 24 })
+                }
+              >
+                24s
+              </button>
 
-            <button onClick={() => dispatch({ type: "SET_SHOT_CLOCK", seconds: 14 })}>
-              14
-            </button>
+              <button
+                style={{ ...buttonStyle, flex: 1 }}
+                onClick={() =>
+                  dispatch({ type: "SET_SHOT_CLOCK", seconds: 14 })
+                }
+              >
+                14s
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* ================= AWAY COLUMN ================= */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <div
-          style={{
-            textAlign: "center",
-            fontSize: "1rem",
-            marginBottom: "0.5rem",
-            letterSpacing: "2px",
-          }}
-        >
-          AWAY
-        </div>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ textAlign: "center", letterSpacing: "2px" }}>AWAY</div>
 
         <div
           style={{
             textAlign: "center",
             fontSize: "4rem",
-            marginBottom: "1rem",
+            margin: "0.5rem 0 1rem 0",
           }}
         >
           {state.awayScore}
         </div>
 
-        <div style={{ display: "grid", gap: "0.5rem" }}>
-          <button onClick={() => dispatch({ type: "INCREMENT_AWAY", amount: 3 })}>+3</button>
-          <button onClick={() => dispatch({ type: "INCREMENT_AWAY", amount: 2 })}>+2</button>
-          <button onClick={() => dispatch({ type: "INCREMENT_AWAY", amount: 1 })}>+1</button>
-          <button onClick={() => dispatch({ type: "DECREMENT_AWAY", amount: 1 })}>-1</button>
+        <div style={{ display: "grid", gap: "0.6rem" }}>
+          <button
+            style={buttonStyle}
+            onClick={() => dispatch({ type: "INCREMENT_AWAY", amount: 3 })}
+          >
+            +3
+          </button>
+          <button
+            style={buttonStyle}
+            onClick={() => dispatch({ type: "INCREMENT_AWAY", amount: 2 })}
+          >
+            +2
+          </button>
+          <button
+            style={buttonStyle}
+            onClick={() => dispatch({ type: "INCREMENT_AWAY", amount: 1 })}
+          >
+            +1
+          </button>
+          <button
+            style={buttonStyle}
+            onClick={() => dispatch({ type: "DECREMENT_AWAY", amount: 1 })}
+          >
+            -1
+          </button>
         </div>
       </div>
     </div>
