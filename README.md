@@ -1,33 +1,34 @@
-# Basketball Scoreboard PWA
+# 🏀 Basketball Scoreboard PWA
 
-A cross-platform Progressive Web App for managing basketball games,
-including game clock and 24-second shot clock.
+A minimal, mobile-first basketball scoreboard featuring a game clock, shot clock, and audible buzzer — built as an installable Progressive Web App.
 
-## Motivation
+🔗 **Live Demo**  
+https://paulnikolaus.github.io/basketball-scoreboard-pwa/
 
-This project aims to provide a lightweight, installable scoreboard
-that works on iPhone, Android, tablets and desktop — without requiring
-App Store publishing or recurring fees.
+---
 
-## Features (Planned)
+## Features
 
-- Home & Away score tracking
-- Game clock
-- 24-second shot clock
-- Landscape-optimized layout
-- Offline support (PWA)
-- Installable to Home Screen
+- Home & Away scoring (+3 / +2 / +1 / -1)
+- Game clock with start/stop & manual time setting
+- Shot clock (24s / 14s) with start/stop
+- Automatic buzzer when a clock reaches 0
+- Fully responsive layout (portrait & landscape)
+- Installable as a PWA
+- Offline capable
+- Fast & lightweight (Vite production build)
+
+---
 
 ## Tech Stack
 
-- React
-- TypeScript
-- Vite
-- SWC
+- **React 19**
+- **TypeScript**
+- **Vite**
+- **vite-plugin-pwa**
+- **GitHub Pages** (via GitHub Actions)
 
-## Status
-
-🚧 Early development
+---
 
 ## License
 
