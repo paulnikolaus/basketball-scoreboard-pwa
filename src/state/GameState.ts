@@ -19,7 +19,6 @@ export interface GameState {
 
   /**
    * Remaining time on the shot clock (in seconds).
-   * Standard FIBA/NBA shot clock = 24 seconds.
    */
   shotClock: number;
 
