@@ -33,11 +33,15 @@ function App() {
 
       <p style={{ fontSize: "2rem" }}>{formatGameTime(state.gameClock)}</p>
 
-      <button onClick={() => dispatch({ type: "START_GAME" })}>
-        Start Game
+      <button
+        onClick={() =>
+          dispatch({
+            type: state.isGameRunning ? "STOP_GAME" : "START_GAME",
+          })
+        }
+      >
+        {state.isGameRunning ? "Stop Game Clock" : "Start / Stop"}
       </button>
-
-      <button onClick={() => dispatch({ type: "STOP_GAME" })}>Stop Game</button>
 
       <button onClick={() => dispatch({ type: "RESET_GAME" })}>Reset</button>
 
@@ -54,12 +58,16 @@ function App() {
 
       <p style={{ fontSize: "2rem" }}>{state.shotClock.toFixed(1)}</p>
 
-      <button onClick={() => dispatch({ type: "START_SHOT_CLOCK" })}>
-        Start Shot Clock
-      </button>
-
-      <button onClick={() => dispatch({ type: "STOP_SHOT_CLOCK" })}>
-        Stop Shot Clock
+      <button
+        onClick={() =>
+          dispatch({
+            type: state.isShotClockRunning
+              ? "STOP_SHOT_CLOCK"
+              : "START_SHOT_CLOCK",
+          })
+        }
+      >
+        {state.isShotClockRunning ? "Stop Shot Clock" : "Start / Stop"}
       </button>
 
       <button onClick={() => dispatch({ type: "SET_SHOT_CLOCK", seconds: 24 })}>
