@@ -78,11 +78,14 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return createInitialGameState();
 
     /**
-     * Reset the shot clock to the default 24 seconds.
-     * Typically triggered on change of possession.
+     * Set the time on the main game clock to a specific value (in seconds).
      */
-    case "RESET_SHOT_CLOCK":
-      return { ...state, shotClock: 24 };
+    case "SET_GAME_TIME":
+      // Set a custom time (used for testing)
+      return {
+        ...state,
+        gameClock: action.seconds,
+      };
 
     /**
      * Manually set the shot clock to a specific number of seconds.
@@ -99,16 +102,32 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
      * - Shot clock decreases only if it is running.
      * - Neither clock can go below 0.
      */
-    case "TICK":
+    case "TICK": {
+      // If game is not running, do nothing
       if (!state.isGameRunning) return state;
+
+      // Decrease game clock by 0.1 seconds
+      const newGameClock = Math.max(
+        0,
+        parseFloat((state.gameClock - 0.1).toFixed(1)),
+      );
+
+      // Decrease shot clock only if running
+      const newShotClock = state.isShotClockRunning
+        ? Math.max(0, parseFloat((state.shotClock - 0.1).toFixed(1)))
+        : state.shotClock;
+
+      // If game clock hits zero, stop the game
+      const shouldStop = newGameClock === 0;
 
       return {
         ...state,
-        gameClock: Math.max(0, state.gameClock - 1),
-        shotClock: state.isShotClockRunning
-          ? Math.max(0, state.shotClock - 1)
-          : state.shotClock,
+        gameClock: newGameClock,
+        shotClock: newShotClock,
+        isGameRunning: shouldStop ? false : state.isGameRunning,
+        isShotClockRunning: shouldStop ? false : state.isShotClockRunning,
       };
+    }
 
     /**
      * Fallback case for unknown actions.

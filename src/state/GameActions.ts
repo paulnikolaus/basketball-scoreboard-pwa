@@ -38,6 +38,11 @@ export type GameAction =
    * Stops the main game clock (and typically the shot clock).
    */
   | { type: "STOP_GAME" }
+  
+  /**
+   * Set the time on the main game clock to a specific value (in seconds).
+   */
+  | { type: "SET_GAME_TIME"; seconds: number }
 
   /**
    * Resets the entire game state to its initial configuration
@@ -52,10 +57,9 @@ export type GameAction =
   | { type: "TICK" }
 
   /**
-   * Resets the shot clock to its default duration (e.g., 24 seconds).
-   * Used after a new possession.
+   * Set the Shot Clock to a specific value (in seconds).
    */
-  | { type: "RESET_SHOT_CLOCK" }
+  | { type: "SET_SHOT_CLOCK"; seconds: number }
 
   /**
    * Sets the shot clock to a specific value (in seconds).

@@ -12,17 +12,13 @@ export const useGameTimer = () => {
   const { state, dispatch } = useGame();
 
   useEffect(() => {
-    // If the game is not running, do nothing.
     if (!state.isGameRunning) return;
 
-    // Create interval that dispatches TICK every 1000ms
+    // Dispatch TICK every 100ms (0.1 seconds)
     const interval = setInterval(() => {
       dispatch({ type: "TICK" });
-    }, 1000);
+    }, 100);
 
-    // Cleanup: clear interval when:
-    // - component unmounts
-    // - isGameRunning changes
     return () => clearInterval(interval);
   }, [state.isGameRunning, dispatch]);
 };
