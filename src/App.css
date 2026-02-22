@@ -80,3 +80,39 @@
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 700;
 }
+
+/* =============================
+   Shot Controls Layout
+   ============================= */
+
+.shot-controls {
+  display: grid;
+  gap: 1.2rem;
+}
+
+/* Portrait (default) */
+.shot-controls {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Make Start/Stop span full width in portrait */
+.shot-controls button:first-child {
+  grid-column: span 2;
+}
+
+/* Landscape layout */
+@media (orientation: landscape) {
+  .shot-controls {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* In landscape, Start no longer spans */
+  .shot-controls button:first-child {
+    grid-column: span 1;
+  }
+}
+
+/* Add spacing below shot controls */
+.shot-controls {
+  margin-bottom: 1.2rem;
+}

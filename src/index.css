@@ -71,6 +71,23 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* =============================
+   Destructive / Danger Button
+   ============================= */
+
+button.danger {
+  background-color: #8b0000; /* dark red */
+  color: white;
+}
+
+button.danger:hover {
+  background-color: #a00000;
+}
+
+button.danger:active {
+  background-color: #6f0000;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
