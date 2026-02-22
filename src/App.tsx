@@ -1,6 +1,7 @@
 import { useGame } from "./context/useGame";
 import { useGameTimer } from "./hooks/useGameTimer";
 import { formatGameTime } from "./utils/formatTime";
+import {formatShotClock} from "./utils/formatTime";
 
 function App() {
   useGameTimer();
@@ -138,7 +139,7 @@ function App() {
               margin: "0.5rem 0",
             }}
           >
-            {state.shotClock.toFixed(1)}
+            {formatShotClock(state.shotClock)}
           </div>
 
           <div
