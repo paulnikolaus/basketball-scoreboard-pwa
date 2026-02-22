@@ -1,4 +1,7 @@
+import { useEffect, useRef } from "react";
+
 import "./App.css";
+import buzzerSound from "./assets/buzzer.mp3";
 import { useGame } from "./context/useGame";
 import { useGameTimer } from "./hooks/useGameTimer";
 import { formatGameTime } from "./utils/formatTime";
@@ -10,6 +13,30 @@ function App() {
 
   const gameColor = state.isGameRunning ? "white" : "red";
   const shotColor = state.isShotClockRunning ? "#0f5f0f" : "red";
+
+  // 🔊 ---- BUZZER SETUP ----
+  const buzzerRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    buzzerRef.current = new Audio(buzzerSound);
+  }, []);
+
+  const prevGameClock = useRef(state.gameClock);
+  const prevShotClock = useRef(state.shotClock);
+
+  useEffect(() => {
+    if (prevGameClock.current > 0 && state.gameClock === 0) {
+      buzzerRef.current?.play();
+    }
+    prevGameClock.current = state.gameClock;
+  }, [state.gameClock]);
+
+  useEffect(() => {
+    if (prevShotClock.current > 0 && state.shotClock === 0) {
+      buzzerRef.current?.play();
+    }
+    prevShotClock.current = state.shotClock;
+  }, [state.shotClock]);
 
   return (
     <div
