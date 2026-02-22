@@ -129,11 +129,40 @@ function App() {
 
             <button
               onClick={() => {
-                const input = prompt("Set game time in seconds:");
+                /**
+                 * Ask user for time in mm:ss format
+                 * Example inputs:
+                 * 10:00
+                 * 8:30
+                 * 1:45
+                 */
+                const input = prompt("Enter time (mm:ss):");
+
                 if (!input) return;
-                const seconds = parseFloat(input);
-                if (isNaN(seconds) || seconds < 0) return;
-                dispatch({ type: "SET_GAME_TIME", seconds });
+
+                /**
+                 * Validate format using regex:
+                 * - 1 or more digits for minutes
+                 * - exactly 2 digits for seconds
+                 */
+                const match = input.trim().match(/^(\d+):([0-5]\d)$/);
+
+                if (!match) {
+                  alert(
+                    "Invalid format. Please use mm:ss (e.g., 10:00 or 8:30)",
+                  );
+                  return;
+                }
+
+                const minutes = parseInt(match[1], 10);
+                const seconds = parseInt(match[2], 10);
+
+                /**
+                 * Convert mm:ss to total seconds
+                 */
+                const totalSeconds = minutes * 60 + seconds;
+
+                dispatch({ type: "SET_GAME_TIME", seconds: totalSeconds });
               }}
             >
               Set Time
