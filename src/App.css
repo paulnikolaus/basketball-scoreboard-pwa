@@ -41,7 +41,7 @@
 }
 
 .center-column {
-  flex: 2;
+  flex: 2.2;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -79,6 +79,23 @@
 .shot-clock {
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 700;
+}
+
+/* =============================
+   Game Controls Layout
+   ============================= */
+
+.game-controls {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: 1fr; /* portrait default */
+}
+
+/* Landscape mode */
+@media (orientation: landscape) {
+  .game-controls {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 /* =============================

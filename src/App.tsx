@@ -116,13 +116,7 @@ function App() {
             {formatGameTime(state.gameClock)}
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1.2rem",
-            }}
-          >
+          <div className="game-controls">
             <button
               onClick={() =>
                 dispatch({
