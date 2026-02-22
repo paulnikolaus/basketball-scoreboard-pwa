@@ -6,21 +6,17 @@ function App() {
   useGameTimer();
   const { state, dispatch } = useGame();
 
-  const buttonStyle = {
-    padding: "0.7rem",
-    fontSize: "1rem",
-  };
-
   return (
     <div
       style={{
         height: "100vh",
         display: "flex",
+        alignItems: "stretch", // explicitly stretch children
         backgroundColor: "#111",
         color: "white",
         fontFamily: "system-ui",
         padding: "0.8rem",
-        gap: "0.8rem",
+        gap: "1.2rem",
       }}
     >
       {/* ================= HOME COLUMN ================= */}
@@ -29,6 +25,7 @@ function App() {
           flex: 1,
           display: "flex",
           flexDirection: "column",
+          height: "100%", // critical
         }}
       >
         <div style={{ textAlign: "center", letterSpacing: "2px" }}>HOME</div>
@@ -36,34 +33,37 @@ function App() {
         <div
           style={{
             textAlign: "center",
-            fontSize: "4rem",
-            margin: "0.5rem 0 1rem 0",
+            fontSize: "3rem",
+            margin: "0.5rem 0",
           }}
         >
           {state.homeScore}
         </div>
 
-        <div style={{ display: "grid", gap: "0.6rem" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.2rem",
+            flex: 1, // consume remaining height
+          }}
+        >
           <button
-            style={buttonStyle}
             onClick={() => dispatch({ type: "INCREMENT_HOME", amount: 3 })}
           >
             +3
           </button>
           <button
-            style={buttonStyle}
             onClick={() => dispatch({ type: "INCREMENT_HOME", amount: 2 })}
           >
             +2
           </button>
           <button
-            style={buttonStyle}
             onClick={() => dispatch({ type: "INCREMENT_HOME", amount: 1 })}
           >
             +1
           </button>
           <button
-            style={buttonStyle}
             onClick={() => dispatch({ type: "DECREMENT_HOME", amount: 1 })}
           >
             -1
@@ -77,14 +77,20 @@ function App() {
           flex: 1.2,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          height: "100%",
+          gap: "2rem",
         }}
       >
-        {/* -------- GAME CLOCK -------- */}
-        <div style={{ textAlign: "center", width: "100%" }}>
+        {/* -------- GAME SECTION -------- */}
+        <div style={{ textAlign: "center" }}>
           <div style={{ letterSpacing: "2px" }}>GAME</div>
 
-          <div style={{ fontSize: "2.8rem", margin: "0.5rem 0" }}>
+          <div
+            style={{
+              fontSize: "2.6rem",
+              margin: "0.5rem 0",
+            }}
+          >
             {formatGameTime(state.gameClock)}
           </div>
 
@@ -92,12 +98,10 @@ function App() {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: "0.6rem",
-              marginBottom: "1.5rem",
+              gap: "1.2rem",
             }}
           >
             <button
-              style={buttonStyle}
               onClick={() =>
                 dispatch({
                   type: state.isGameRunning ? "STOP_GAME" : "START_GAME",
@@ -108,7 +112,6 @@ function App() {
             </button>
 
             <button
-              style={buttonStyle}
               onClick={() => {
                 const input = prompt("Set game time in seconds:");
                 if (!input) return;
@@ -122,19 +125,30 @@ function App() {
           </div>
         </div>
 
-        {/* -------- SHOT CLOCK -------- */}
-        <div style={{ textAlign: "center", width: "100%" }}>
+        {/* -------- SPACING BETWEEN GAME & SHOT -------- */}
+        <div style={{ height: "2rem" }} />
+
+        {/* -------- SHOT SECTION -------- */}
+        <div style={{ textAlign: "center" }}>
           <div style={{ letterSpacing: "2px" }}>SHOT</div>
 
-          <div style={{ fontSize: "2.4rem", margin: "0.5rem 0" }}>
+          <div
+            style={{
+              fontSize: "2.2rem",
+              margin: "0.5rem 0",
+            }}
+          >
             {state.shotClock.toFixed(1)}
           </div>
 
           <div
-            style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1.2rem",
+            }}
           >
             <button
-              style={buttonStyle}
               onClick={() =>
                 dispatch({
                   type: state.isShotClockRunning
@@ -148,7 +162,7 @@ function App() {
 
             <div style={{ display: "flex", gap: "0.6rem" }}>
               <button
-                style={{ ...buttonStyle, flex: 1 }}
+                style={{ flex: 1 }}
                 onClick={() =>
                   dispatch({ type: "SET_SHOT_CLOCK", seconds: 24 })
                 }
@@ -157,7 +171,7 @@ function App() {
               </button>
 
               <button
-                style={{ ...buttonStyle, flex: 1 }}
+                style={{ flex: 1 }}
                 onClick={() =>
                   dispatch({ type: "SET_SHOT_CLOCK", seconds: 14 })
                 }
@@ -175,6 +189,7 @@ function App() {
           flex: 1,
           display: "flex",
           flexDirection: "column",
+          height: "100%", // critical
         }}
       >
         <div style={{ textAlign: "center", letterSpacing: "2px" }}>AWAY</div>
@@ -182,34 +197,37 @@ function App() {
         <div
           style={{
             textAlign: "center",
-            fontSize: "4rem",
-            margin: "0.5rem 0 1rem 0",
+            fontSize: "3rem",
+            margin: "0.5rem 0",
           }}
         >
           {state.awayScore}
         </div>
 
-        <div style={{ display: "grid", gap: "0.6rem" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.2rem",
+            flex: 1, // consume remaining height
+          }}
+        >
           <button
-            style={buttonStyle}
             onClick={() => dispatch({ type: "INCREMENT_AWAY", amount: 3 })}
           >
             +3
           </button>
           <button
-            style={buttonStyle}
             onClick={() => dispatch({ type: "INCREMENT_AWAY", amount: 2 })}
           >
             +2
           </button>
           <button
-            style={buttonStyle}
             onClick={() => dispatch({ type: "INCREMENT_AWAY", amount: 1 })}
           >
             +1
           </button>
           <button
-            style={buttonStyle}
             onClick={() => dispatch({ type: "DECREMENT_AWAY", amount: 1 })}
           >
             -1
