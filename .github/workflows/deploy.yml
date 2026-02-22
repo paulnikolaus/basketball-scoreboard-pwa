@@ -1,0 +1,98 @@
+# ------------------------------------------------------------
+# Workflow Name (visible in GitHub "Actions" tab)
+# ------------------------------------------------------------
+name: Deploy to GitHub Pages
+
+# ------------------------------------------------------------
+# When should this workflow run?
+# Here: every time we push to the "main" branch
+# ------------------------------------------------------------
+on:
+  push:
+    branches:
+      - main
+
+# ------------------------------------------------------------
+# Required permissions for GitHub Pages deployment
+# ------------------------------------------------------------
+permissions:
+  contents: read # allows reading repository contents
+  pages: write # allows publishing to GitHub Pages
+  id-token: write # required for authentication with Pages
+
+# ------------------------------------------------------------
+# Jobs = things that run in the workflow
+# ------------------------------------------------------------
+jobs:
+  # ----------------------------------------------------------
+  # 1️⃣ BUILD JOB
+  # Builds the Vite app and prepares the production files
+  # ----------------------------------------------------------
+  build:
+    runs-on: ubuntu-latest # GitHub provides a fresh Linux machine
+
+    steps:
+      # ----------------------------------------------
+      # Step 1: Checkout repository code
+      # ----------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ----------------------------------------------
+      # Step 2: Setup Node.js
+      # We use Node 24 to match your local environment
+      # ----------------------------------------------
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "npm" # speeds up installs by caching dependencies
+
+      # ----------------------------------------------
+      # Step 3: Install dependencies
+      # Equivalent to running locally: npm install
+      # ----------------------------------------------
+      - name: Install dependencies
+        run: npm install
+
+      # ----------------------------------------------
+      # Step 4: Build production version of app
+      # Equivalent to: npm run build
+      # This creates the /dist folder
+      # ----------------------------------------------
+      - name: Build project
+        run: npm run build
+
+      # ----------------------------------------------
+      # Step 5: Upload built files as artifact
+      # GitHub Pages will deploy these
+      # ----------------------------------------------
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  # ----------------------------------------------------------
+  # 2️⃣ DEPLOY JOB
+  # Takes the built files and publishes them
+  # ----------------------------------------------------------
+  deploy:
+    needs: build # ensures build job finishes first
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      # ----------------------------------------------
+      # Deploy to GitHub Pages
+      # Official GitHub action for Pages deployment
+      # ----------------------------------------------
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
