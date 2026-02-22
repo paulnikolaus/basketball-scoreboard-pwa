@@ -71,6 +71,17 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
     /**
+     * Reset only the team scores.
+     * Does NOT affect clocks.
+     */
+    case "RESET_SCORE":
+      return {
+        ...state,
+        homeScore: 0,
+        awayScore: 0,
+      };
+
+    /**
      * Reset the entire game state to its initial values.
      */
     case "RESET_GAME":

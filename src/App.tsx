@@ -169,7 +169,9 @@ function App() {
           >
             {formatShotClock(state.shotClock)}
           </div>
-
+          {/**
+           * Start / Stop shot clock toggle
+           */}
           <div
             style={{
               display: "flex",
@@ -189,6 +191,10 @@ function App() {
               Start / Stop
             </button>
 
+            {/**
+             * Horizontal row containing quick shot clock resets.
+             * This row is ONLY for 24s and 14s.
+             */}
             <div style={{ display: "flex", gap: "0.6rem" }}>
               <button
                 style={{ flex: 1 }}
@@ -208,6 +214,22 @@ function App() {
                 14s
               </button>
             </div>
+
+            {/**
+             * Reset score button.
+             * Important: This is OUTSIDE the horizontal row,
+             * so it stacks vertically below it.
+             */}
+            <button
+              style={{
+                backgroundColor: "#8b0000",
+                color: "white",
+                fontWeight: "bold",
+              }}
+              onClick={() => dispatch({ type: "RESET_SCORE" })}
+            >
+              RESET SCORE
+            </button>
           </div>
         </div>
       </div>

@@ -30,6 +30,15 @@ export type GameAction =
   | { type: "DECREMENT_AWAY"; amount: number }
 
   /**
+   * Reset only the team scores to zero.
+   *
+   * Important:
+   * - Does NOT modify the clocks
+   * - Does NOT stop the game
+   */
+  | { type: "RESET_SCORE" }
+
+  /**
    * Starts the main game clock.
    */
   | { type: "START_GAME" }
