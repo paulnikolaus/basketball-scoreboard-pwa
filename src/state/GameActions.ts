@@ -30,7 +30,7 @@ export type GameAction =
   | { type: "DECREMENT_AWAY"; amount: number }
 
   /**
-   * Starts the main game clock (and typically the shot clock).
+   * Starts the main game clock.
    */
   | { type: "START_GAME" }
 
@@ -38,7 +38,7 @@ export type GameAction =
    * Stops the main game clock (and typically the shot clock).
    */
   | { type: "STOP_GAME" }
-  
+
   /**
    * Set the time on the main game clock to a specific value (in seconds).
    */
@@ -57,9 +57,14 @@ export type GameAction =
   | { type: "TICK" }
 
   /**
-   * Set the Shot Clock to a specific value (in seconds).
+   * Starts the shot clock.
    */
-  | { type: "SET_SHOT_CLOCK"; seconds: number }
+  | { type: "START_SHOT_CLOCK" }
+
+  /**
+   * Stops the shot clock.
+   */
+  | { type: "STOP_SHOT_CLOCK" }
 
   /**
    * Sets the shot clock to a specific value (in seconds).

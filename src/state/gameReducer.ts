@@ -57,7 +57,6 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         isGameRunning: true,
-        isShotClockRunning: true,
       };
 
     /**
@@ -88,6 +87,24 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
     /**
+     * Starts the shot clock.
+     */
+    case "START_SHOT_CLOCK":
+      return {
+        ...state,
+        isShotClockRunning: true,
+      };
+
+    /**
+     * Stops the shot clock.
+     */
+    case "STOP_SHOT_CLOCK":
+      return {
+        ...state,
+        isShotClockRunning: false,
+      };
+
+    /**
      * Manually set the shot clock to a specific number of seconds.
      * Useful for special cases (e.g. 14 seconds reset).
      */
@@ -103,29 +120,21 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
      * - Neither clock can go below 0.
      */
     case "TICK": {
-      // If game is not running, do nothing
-      if (!state.isGameRunning) return state;
+      const newGameClock = state.isGameRunning
+        ? Math.max(0, parseFloat((state.gameClock - 0.1).toFixed(1)))
+        : state.gameClock;
 
-      // Decrease game clock by 0.1 seconds
-      const newGameClock = Math.max(
-        0,
-        parseFloat((state.gameClock - 0.1).toFixed(1)),
-      );
-
-      // Decrease shot clock only if running
       const newShotClock = state.isShotClockRunning
         ? Math.max(0, parseFloat((state.shotClock - 0.1).toFixed(1)))
         : state.shotClock;
-
-      // If game clock hits zero, stop the game
-      const shouldStop = newGameClock === 0;
 
       return {
         ...state,
         gameClock: newGameClock,
         shotClock: newShotClock,
-        isGameRunning: shouldStop ? false : state.isGameRunning,
-        isShotClockRunning: shouldStop ? false : state.isShotClockRunning,
+        isGameRunning: newGameClock === 0 ? false : state.isGameRunning,
+        isShotClockRunning:
+          newShotClock === 0 ? false : state.isShotClockRunning,
       };
     }
 
