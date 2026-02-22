@@ -1,22 +1,21 @@
-// React entry point imports
+// React DOM renderer
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// Main application component
+// Root App component
 import App from "./App";
 
-// Import our GameProvider to wrap the entire app
-import { GameProvider } from "./context/GameContext";
+// Context provider
+import { GameProvider } from "./context/GameProvider";
 
 /**
- * Create the root React rendering tree.
- * We wrap App inside GameProvider so that
- * every component has access to game state.
+ * Render the entire application
+ * wrapped inside GameProvider
  */
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <GameProvider>
       <App />
     </GameProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
