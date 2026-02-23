@@ -1,83 +1,122 @@
+/* =========================================================
+   GLOBAL ROOT STYLES
+   ========================================================= */
+
 :root {
+  /* System font stack for performance + native feel */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  /* Better text readability */
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  /* Improve font rendering */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* -------------------------------------------------------
+     FORCE DARK SCOREBOARD THEME
+     -------------------------------------------------------
+     Scoreboards should stay consistent regardless of
+     system light/dark preferences.
+  */
+  background-color: #000; /* pure black background */
+  color: #fff; /* default text color */
 }
+
+/* =========================================================
+   BODY RESET
+   ========================================================= */
+
+/* Remove default browser margin and ensure full dark theme */
+body {
+  margin: 0;
+  background-color: #000; /* double safety */
+  color: #fff;
+  font-family: system-ui;
+}
+
+/* =========================================================
+   LINKS (minimal styling)
+   ========================================================= */
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #646cff; /* subtle accent */
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
 
-/* Remove default margins */
-body {
-  margin: 0;
-  background-color: #111;
-  color: white;
-  font-family: system-ui;
-}
+/* =========================================================
+   BUTTON BASE STYLES
+   ========================================================= */
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-/* Base button styling for mobile ergonomics */
+/*
+  Designed for:
+  - Touch devices
+  - Sports hall usage
+  - Large tap targets
+*/
 button {
-  width: 100%;
+  width: 100%; /* full width buttons */
   flex: 0 0 auto;
 
-  font-size: 1.1rem; /* slightly smaller text */
+  font-size: 1.1rem;
   font-weight: 600;
 
-  padding: 0.4rem 0; /* slightly less vertical height */
+  padding: 0.6rem 0; /* vertical size */
+  border-radius: 14px; /* rounded modern look */
 
-  border-radius: 14px;
   border: none;
-  background-color: #2a2a2a;
-  color: white;
+
+  background-color: #2a2a2a; /* neutral dark gray */
+  color: #fff; /* high contrast text */
+
+  cursor: pointer;
 }
 
+/* Slightly larger controls in portrait mode */
 @media (orientation: portrait) {
   button {
     font-size: 1.3rem;
-    padding: 0.6rem 0;
+    padding: 0.8rem 0;
   }
 }
 
-button:active {
-  transform: scale(0.97);
-}
-
+/* Hover effect (desktop only really) */
 button:hover {
   background-color: #3a3a3a;
 }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Press feedback */
+button:active {
+  transform: scale(0.97);
 }
 
-/* =============================
-   Destructive / Danger Button
-   ============================= */
+/* Accessibility focus styling */
+button:focus,
+button:focus-visible {
+  outline: 3px solid #666;
+}
 
+/* =========================================================
+   DANGER / RESET BUTTON
+   ========================================================= */
+
+/*
+  Used for:
+  - Reset game
+  - Clear scores
+  - Critical actions
+*/
 button.danger {
   background-color: #8b0000; /* dark red */
-  color: white;
+  color: #fff;
 }
 
 button.danger:hover {
@@ -86,17 +125,4 @@ button.danger:hover {
 
 button.danger:active {
   background-color: #6f0000;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
