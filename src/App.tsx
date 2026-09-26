@@ -215,7 +215,12 @@ function App() {
 
           <button
             className="danger"
-            onClick={() => dispatch({ type: "RESET_SCORE" })}
+            onClick={() => {
+              // Guard against accidental taps during a game
+              if (confirm("Reset the score to 0:0?")) {
+                dispatch({ type: "RESET_SCORE" });
+              }
+            }}
           >
             RESET SCORE
           </button>
