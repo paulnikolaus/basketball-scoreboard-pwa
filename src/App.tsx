@@ -4,11 +4,13 @@ import "./App.css";
 import buzzerSound from "./assets/buzzer.mp3";
 import { useGame } from "./context/useGame";
 import { useGameTimer } from "./hooks/useGameTimer";
+import { useWakeLock } from "./hooks/useWakeLock";
 import { formatGameTime } from "./utils/formatTime";
 import { formatShotClock } from "./utils/formatTime";
 
 function App() {
   useGameTimer();
+  useWakeLock();
   const { state, dispatch } = useGame();
 
   const gameColor = state.isGameRunning ? "white" : "red";
@@ -213,7 +215,12 @@ function App() {
 
           <button
             className="danger"
-            onClick={() => dispatch({ type: "RESET_SCORE" })}
+            onClick={() => {
+              // Guard against accidental taps during a game
+              if (confirm("Reset the score to 0:0?")) {
+                dispatch({ type: "RESET_SCORE" });
+              }
+            }}
           >
             RESET SCORE
           </button>
