@@ -78,6 +78,9 @@ button {
   color: #fff; /* high contrast text */
 
   cursor: pointer;
+
+  /* Fast repeated taps (e.g. +1, +1) count as taps, not a double-tap zoom */
+  touch-action: manipulation;
 }
 
 /* Slightly larger controls in portrait mode */
