@@ -13,10 +13,10 @@
 export const formatGameTime = (seconds: number): string => {
   /**
    * If below 10 seconds,
-   * show one decimal place.
+   * show one decimal place (truncated, so 9.99 doesn't become 10.0).
    */
   if (seconds < 10) {
-    return seconds.toFixed(1);
+    return (Math.floor(seconds * 10) / 10).toFixed(1);
   }
 
   /**

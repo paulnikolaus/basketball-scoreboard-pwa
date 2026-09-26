@@ -60,10 +60,10 @@ export type GameAction =
   | { type: "RESET_GAME" }
 
   /**
-   * Advances the game by one time unit (usually one second).
-   * This action is typically dispatched on an interval.
+   * Advances the running clocks by `elapsed` seconds of real time.
+   * This action is dispatched on an interval by useGameTimer.
    */
-  | { type: "TICK" }
+  | { type: "TICK"; elapsed: number }
 
   /**
    * Starts the shot clock.

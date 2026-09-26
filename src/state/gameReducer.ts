@@ -123,20 +123,19 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return { ...state, shotClock: action.seconds };
 
     /**
-     * Advance time by one second.
+     * Advance time by the real time elapsed since the last tick.
      *
-     * - Only runs if the game is currently running.
-     * - Game clock decreases until 0.
+     * - Game clock decreases only if it is running.
      * - Shot clock decreases only if it is running.
      * - Neither clock can go below 0.
      */
     case "TICK": {
       const newGameClock = state.isGameRunning
-        ? Math.max(0, parseFloat((state.gameClock - 0.1).toFixed(1)))
+        ? Math.max(0, state.gameClock - action.elapsed)
         : state.gameClock;
 
       const newShotClock = state.isShotClockRunning
-        ? Math.max(0, parseFloat((state.shotClock - 0.1).toFixed(1)))
+        ? Math.max(0, state.shotClock - action.elapsed)
         : state.shotClock;
 
       return {
