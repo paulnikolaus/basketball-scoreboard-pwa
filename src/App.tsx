@@ -4,11 +4,13 @@ import "./App.css";
 import buzzerSound from "./assets/buzzer.mp3";
 import { useGame } from "./context/useGame";
 import { useGameTimer } from "./hooks/useGameTimer";
+import { useWakeLock } from "./hooks/useWakeLock";
 import { formatGameTime } from "./utils/formatTime";
 import { formatShotClock } from "./utils/formatTime";
 
 function App() {
   useGameTimer();
+  useWakeLock();
   const { state, dispatch } = useGame();
 
   const gameColor = state.isGameRunning ? "white" : "red";
