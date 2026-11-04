@@ -1,6 +1,7 @@
 import type { GameState } from "./GameState";
 import { createInitialGameState } from "./GameState";
 import type { GameAction } from "./GameActions";
+import { isValidScore, isValidTime } from "./gameValidation";
 
 /**
  * Reducer function responsible for handling all state transitions
@@ -15,18 +16,44 @@ import type { GameAction } from "./GameActions";
  * - Always return a new state object
  */
 export function gameReducer(state: GameState, action: GameAction): GameState {
+  // Ignore invalid inputs so the current game remains intact.
+  if ("amount" in action && !isValidScore(action.amount)) {
+    return state;
+  }
+
+  if ("seconds" in action && !isValidTime(action.seconds)) {
+    return state;
+  }
+
+  // Negative elapsed time would increase the clocks.
+  // NaN or Infinity would corrupt or immediately expire them.
+  if (action.type === "TICK" && !isValidTime(action.elapsed)) {
+    return state;
+  }
+
   switch (action.type) {
     /**
      * Increase home team score by the given amount.
      */
-    case "INCREMENT_HOME":
-      return { ...state, homeScore: state.homeScore + action.amount };
+    case "INCREMENT_HOME": {
+      const homeScore = state.homeScore + action.amount;
+
+      // Even valid inputs can add up to an unsafe integer.
+      if (!isValidScore(homeScore)) return state;
+
+      return { ...state, homeScore };
+    }
 
     /**
      * Increase away team score by the given amount.
      */
-    case "INCREMENT_AWAY":
-      return { ...state, awayScore: state.awayScore + action.amount };
+    case "INCREMENT_AWAY": {
+      const awayScore = state.awayScore + action.amount;
+
+      if (!isValidScore(awayScore)) return state;
+
+      return { ...state, awayScore };
+    }
 
     /**
      * Decrease home team score.
@@ -50,13 +77,14 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
     /**
      * Start the game:
-     * - Main game clock starts running
-     * - Shot clock starts running
+     * - Main game clock starts running if time remains
+     * - Shot clock is controlled separately
      */
     case "START_GAME":
       return {
         ...state,
-        isGameRunning: true,
+        // An expired period must be given more time before it can restart.
+        isGameRunning: state.gameClock > 0,
       };
 
     /**
@@ -103,7 +131,9 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     case "START_SHOT_CLOCK":
       return {
         ...state,
-        isShotClockRunning: true,
+        // Both clocks need remaining time. The game clock does not have to
+        // be running, so the operator can control the shot clock separately.
+        isShotClockRunning: state.gameClock > 0 && state.shotClock > 0,
       };
 
     /**
@@ -128,23 +158,37 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
      * - Game clock decreases only if it is running.
      * - Shot clock decreases only if it is running.
      * - Neither clock can go below 0.
+     * - Both clocks stop when the game clock reaches 0.
      */
     case "TICK": {
       const newGameClock = state.isGameRunning
         ? Math.max(0, state.gameClock - action.elapsed)
         : state.gameClock;
 
+      // A delayed tick may cover more time than remains in the period.
+      // For example, if 5 seconds elapsed but only 1 second of game time
+      // remained, advance the shot clock by only that final second.
+      // When the game clock is paused, the shot clock advances independently.
+      const shotElapsed = state.isGameRunning
+        ? Math.min(action.elapsed, state.gameClock)
+        : action.elapsed;
       const newShotClock = state.isShotClockRunning
-        ? Math.max(0, state.shotClock - action.elapsed)
+        ? Math.max(0, state.shotClock - shotElapsed)
         : state.shotClock;
 
       return {
         ...state,
         gameClock: newGameClock,
         shotClock: newShotClock,
+        // Period end stops the game clock. Otherwise, preserve its run state.
         isGameRunning: newGameClock === 0 ? false : state.isGameRunning,
+
+        // Period end stops both clocks. Shot-clock expiration stops only
+        // the shot clock, allowing the game clock to continue.
         isShotClockRunning:
-          newShotClock === 0 ? false : state.isShotClockRunning,
+          newGameClock === 0 || newShotClock === 0
+            ? false
+            : state.isShotClockRunning,
       };
     }
 

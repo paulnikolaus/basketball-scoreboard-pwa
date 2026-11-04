@@ -7,6 +7,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      workbox: {
+        // Cache the buzzer alongside the app so sound works offline.
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,mp3}"],
+      },
       manifest: {
         name: "Basketball Scoreboard",
         short_name: "Scoreboard",

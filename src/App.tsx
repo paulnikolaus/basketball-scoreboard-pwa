@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import "./App.css";
 import buzzerSound from "./assets/buzzer.mp3";
@@ -16,29 +16,60 @@ function App() {
   const gameColor = state.isGameRunning ? "white" : "red";
   const shotColor = state.isShotClockRunning ? "#0f5f0f" : "red";
 
-  // 🔊 ---- BUZZER SETUP ----
+  // Keep one audio element for the lifetime of the component.
+  // Reusing it lets the sound-test button and clock events play the same audio.
   const buzzerRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    buzzerRef.current = new Audio(buzzerSound);
+    const buzzer = new Audio(buzzerSound);
+    buzzerRef.current = buzzer;
+
+    return () => {
+      // Stop playback when the component unmounts.
+      // This also cleans up React Strict Mode's development-only setup cycle.
+      buzzer.pause();
+      buzzerRef.current = null;
+    };
   }, []);
 
+  const playBuzzer = useCallback(async () => {
+    const buzzer = buzzerRef.current;
+    if (!buzzer) return;
+
+    try {
+      // Always play from the beginning, including when a previous buzzer
+      // is still playing.
+      buzzer.currentTime = 0;
+      await buzzer.play();
+    } catch (error) {
+      // Browsers can reject playback, for example because user interaction
+      // is required or the audio file could not be loaded.
+      // Catch the rejection so it does not become an unhandled promise.
+      console.warn("Buzzer playback failed:", error);
+    }
+  }, []);
+
+  // Start with the current values so loading the app with a clock at zero
+  // does not trigger a buzzer.
   const prevGameClock = useRef(state.gameClock);
   const prevShotClock = useRef(state.shotClock);
 
   useEffect(() => {
-    if (prevGameClock.current > 0 && state.gameClock === 0) {
-      buzzerRef.current?.play();
-    }
-    prevGameClock.current = state.gameClock;
-  }, [state.gameClock]);
+    // Detect the transition from positive time to zero.
+    // Later renders with the clock still at zero must not sound again.
+    const gameExpired =
+      prevGameClock.current > 0 && state.gameClock === 0;
+    const shotExpired =
+      prevShotClock.current > 0 && state.shotClock === 0;
 
-  useEffect(() => {
-    if (prevShotClock.current > 0 && state.shotClock === 0) {
-      buzzerRef.current?.play();
-    }
+    prevGameClock.current = state.gameClock;
     prevShotClock.current = state.shotClock;
-  }, [state.shotClock]);
+
+    // Handle both clocks together so simultaneous expiration plays once.
+    if (gameExpired || shotExpired) {
+      void playBuzzer();
+    }
+  }, [state.gameClock, state.shotClock, playBuzzer]);
 
   return (
     <div
@@ -168,6 +199,11 @@ function App() {
               }}
             >
               Set Time
+            </button>
+            {/* Play directly from a user interaction so the operator can check
+                sound and volume before starting the game. */}
+            <button onClick={() => void playBuzzer()}>
+              Test sound
             </button>
           </div>
         </div>
