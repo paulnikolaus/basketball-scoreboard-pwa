@@ -1,6 +1,7 @@
 import type { GameState } from "./GameState";
 import { createInitialGameState } from "./GameState";
 import type { GameAction } from "./GameActions";
+import { isValidScore, isValidTime } from "./gameValidation";
 
 /**
  * Reducer function responsible for handling all state transitions
@@ -15,18 +16,44 @@ import type { GameAction } from "./GameActions";
  * - Always return a new state object
  */
 export function gameReducer(state: GameState, action: GameAction): GameState {
+  // Ignore invalid inputs so the current game remains intact.
+  if ("amount" in action && !isValidScore(action.amount)) {
+    return state;
+  }
+
+  if ("seconds" in action && !isValidTime(action.seconds)) {
+    return state;
+  }
+
+  // Negative elapsed time would increase the clocks.
+  // NaN or Infinity would corrupt or immediately expire them.
+  if (action.type === "TICK" && !isValidTime(action.elapsed)) {
+    return state;
+  }
+
   switch (action.type) {
     /**
      * Increase home team score by the given amount.
      */
-    case "INCREMENT_HOME":
-      return { ...state, homeScore: state.homeScore + action.amount };
+    case "INCREMENT_HOME": {
+      const homeScore = state.homeScore + action.amount;
+
+      // Even valid inputs can add up to an unsafe integer.
+      if (!isValidScore(homeScore)) return state;
+
+      return { ...state, homeScore };
+    }
 
     /**
      * Increase away team score by the given amount.
      */
-    case "INCREMENT_AWAY":
-      return { ...state, awayScore: state.awayScore + action.amount };
+    case "INCREMENT_AWAY": {
+      const awayScore = state.awayScore + action.amount;
+
+      if (!isValidScore(awayScore)) return state;
+
+      return { ...state, awayScore };
+    }
 
     /**
      * Decrease home team score.

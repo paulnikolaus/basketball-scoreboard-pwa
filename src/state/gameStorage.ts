@@ -1,5 +1,6 @@
 import type { GameState } from "./GameState";
 import { createInitialGameState } from "./GameState";
+import { isValidScore, isValidTime } from "./gameValidation";
 
 /**
  * Persists the game state in localStorage so a reload,
@@ -8,7 +9,8 @@ import { createInitialGameState } from "./GameState";
 const STORAGE_KEY = "basketball-scoreboard:game-state";
 
 /**
- * Checks that stored data has the shape of a GameState.
+ * Checks that stored data has the shape of a GameState
+ * and contains valid scores and clock values.
  * Protects against corrupted data or data from an older app version.
  */
 const isGameState = (value: unknown): value is GameState => {
@@ -17,10 +19,10 @@ const isGameState = (value: unknown): value is GameState => {
   const state = value as Record<string, unknown>;
 
   return (
-    typeof state.homeScore === "number" &&
-    typeof state.awayScore === "number" &&
-    typeof state.gameClock === "number" &&
-    typeof state.shotClock === "number" &&
+    isValidScore(state.homeScore) &&
+    isValidScore(state.awayScore) &&
+    isValidTime(state.gameClock) &&
+    isValidTime(state.shotClock) &&
     typeof state.isGameRunning === "boolean" &&
     typeof state.isShotClockRunning === "boolean"
   );
